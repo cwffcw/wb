@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>未來科技風網站 - 登入與註冊</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1f1f1f, #0e0e0e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 400px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    h2 {
+      text-align: center;
+      color: #00ffff;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+
+    button {
+      background: #00ffff;
+      border: none;
+      color: #000;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #error-message,
+    #register-error-message {
+      color: #ff4b5c;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .toggle {
+      color: #00ffff;
+      text-align: center;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>登入系統</h2>
+
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="使用者名稱" required />
+      <input type="password" id="password" placeholder="密碼" required />
+      <button type="submit">登入</button>
+      <p id="error-message"></p>
+    </form>
+
+    <form id="registerForm" class="hidden">
+      <input type="text" id="regUsername" placeholder="使用者名稱" required />
+      <input type="password" id="regPassword" placeholder="密碼" required />
+      <button type="submit">註冊</button>
+      <p id="register-error-message"></p>
+    </form>
+
+    <div class="toggle" onclick="toggleForms()">沒有帳號？點此註冊！</div>
+  </div>
+
+  <script>
+    function toggleForms() {
+      document.getElementById('loginForm').classList.toggle('hidden');
+      document.getElementById('registerForm').classList.toggle('hidden');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+      
+        window.location.href = '/dashboard.html';
+      } else {
+        document.getElementById('error-message').innerText = data.message;
+      }
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('regUsername').value;
+      const password = document.getElementById('regPassword').value;
+
+      const res = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message); // 註冊成功提示
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+      } else {
+        document.getElementById('register-error-message').innerText = data.errors
+          ? data.errors[0].msg
+          : data.message;
+      }
+    });
+  </script>
+</body>
+</html>
