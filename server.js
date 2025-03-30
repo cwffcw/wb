@@ -12,7 +12,7 @@ const SALT_ROUNDS = 10;
 
 const app = express();
 const PORT = 3000;
-
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
