@@ -11,7 +11,7 @@ const path = require('path');
 const SALT_ROUNDS = 10;
 
 const app = express();
-const PORT = 10000;
+const PORT = 3000;
 
 app.use(express.json());
 app.use(cookieParser());
