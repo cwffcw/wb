@@ -11,7 +11,7 @@ const path = require('path');
 const SALT_ROUNDS = 10;
 
 const app = express();
-const PORT = 3000;
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -29,7 +29,7 @@ app.use(session({
 
 
 // MongoDB Atlas 連接
-const mongoURI = process.env.MONGO_URI || 'mongodb+srv://cwf:EA6CA960202@cluster0.jfijt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
