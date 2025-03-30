@@ -100,6 +100,12 @@
   </div>
 
   <script>
+
+    fetch('https://future-tech-backend.onrender.com/api/some-endpoint')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+    
     function toggleForms() {
       document.getElementById('loginForm').classList.toggle('hidden');
       document.getElementById('registerForm').classList.toggle('hidden');
