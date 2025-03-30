@@ -29,7 +29,7 @@ app.use(session({
 
 
 // MongoDB Atlas 連接
-
+const mongoURI = process.env.MONGO_URI
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
